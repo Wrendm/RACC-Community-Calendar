@@ -1,0 +1,43 @@
+/*Wren Miles for Regional Arts and Culture Council 2024*/
+@import url("https://use.typekit.net/dtt4nbk.css");
+
+* {
+    box-sizing: border-box;
+    font-family: "proxima-nova", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 14pt; 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+    background-color: #FFFFFF;
+    margin: 0;
+}
+.navtop {
+    background-color: #3b4656;
+    height: 60px;
+    width: 100%;
+    border: 0;
+}
+.navtop div {
+    display: flex;
+    margin: 0 auto;
+    width: 800px;
+    height: 100%;
+}
+.navtop div h1, .navtop div a {
+    display: inline-flex;
+    align-items: center;
+}
+
+.content {
+    width: 1000px;
+    margin: 0 auto;
+}
+.content h2 {
+    margin: 0;
+    padding: 25px 0;
+    font-size: 22px;
+    border-bottom: 1px solid #ebebeb;
+    color: #666666;
+}
