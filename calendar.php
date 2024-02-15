@@ -1,26 +1,42 @@
-<!--Template Name: RACC Calendar-->
-<!--Wren Miles for Regional Arts and Culture Council 2024-->
-<!--adapted somewhat from C2's previous calendar code, but mainly just the curl pieces-->
 <?php
-	function get_content($URL){
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_URL, $URL);
-		$data = curl_exec($ch);
-		curl_close($ch);
-		return $data;
-	}
-?>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Event Calendar</title>
-		<link href="style.css" rel="stylesheet" type="text/css">
-		<link href="calendar.css" rel="stylesheet" type="text/css">
-		<?php include 'calendarclass.php' ?>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
-    	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-    	<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css">
+/*
+Template Name: RACC Calendar 
+*/
+/*
+Wren Miles for Regional Arts and Culture Council 2024
+adapted somewhat from C2's previous calendar code, but mainly just the curl pieces
+*/
+function get_content($URL){
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_URL, $URL);
+	$data = curl_exec($ch);
+	curl_close($ch);
+	return $data;
+}
+
+get_header(); ?>
+<?php wp_enqueue_style( 'style', get_stylesheet_uri() ); ?>
+<?php wp_enqueue_style( 'calendar', get_stylesheet_uri() ); ?>
+<?php get_template_part( 'parts/featured-image' ); ?>
+
+<div class="row">
+	<?php get_template_part('parts/calendarclass'); ?>
+	<?php get_template_part( 'parts/check-if-sidebar-exist' ); ?>
+	<?php do_action( 'foundationpress_before_content' ); ?>
+	<?php while ( have_posts() ) : the_post(); ?>
+	<article <?php post_class() ?> id="post-<?php the_ID(); ?>">
+		<header>
+			<h1 class="entry-title"><?php the_title(); ?></h1>
+		</header>
+		<?php do_action( 'foundationpress_page_before_entry_content' ); ?>
+		<div class="entry-content">
+			<?php the_content(); ?> 
+
+		
+		<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+		<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
     	<script type="text/javascript">
 			$(function() {
 				$('.date-picker').datepicker( {
@@ -33,14 +49,7 @@
 				}
 				});
 			});
-			</script>
-		<style>
-			.ui-datepicker-calendar {
-				display: none;
-			}
-    	</style>
-	</head>
-	<body>
+		</script>
 	<div class="content home">
 		<form id="ccsearch" method="POST" action="">
 			<div>
@@ -137,6 +146,23 @@
 		<?php
 			echo $calendar;
 		?>
+	</div>
 		</div>
-	</body>
-</html>
+		<footer>
+			<?php wp_link_pages( array('before' => '<nav id="page-nav"><p>' . __( 'Pages:', 'foundationpress' ), 'after' => '</p></nav>' ) ); ?>
+			<p><?php the_tags(); ?></p>
+		</footer>
+		<?php do_action( 'foundationpress_page_before_comments' ); ?>
+		<?php comments_template(); ?>
+		<?php do_action( 'foundationpress_page_after_comments' ); ?>
+	</article>
+	<?php endwhile;?>
+
+	<?php do_action( 'foundationpress_after_content' ); ?>
+
+	</div>
+	<?php get_sidebar(); ?>
+</div>
+
+
+<?php get_footer(); ?>
