@@ -15,6 +15,7 @@ function get_content($URL){
 	return $data;
 }
 
+
 get_header(); ?>
 <?php wp_enqueue_style( 'style', get_stylesheet_uri() ); ?>
 <?php wp_enqueue_style( 'calendar', get_stylesheet_uri() ); ?>
@@ -49,7 +50,7 @@ get_header(); ?>
 				}
 				});
 			});
-		</script>
+	</script>
 	<div class="content home">
 		<form id="ccsearch" method="POST" action="">
 			<div>
@@ -109,20 +110,16 @@ get_header(); ?>
 				$color = ' ';
 				if(isset($events['event']['filters']['event_types'])){
 					$eventtype = $events['event']['filters']['event_types'][0]['id'];
-					if($eventtype == 32405){
-						$color = 'purple';
-					}else if($eventtype == 33036){
-						$color = 'red';
-					}else if($eventtype == 33037){
+					if($eventtype == 32405){ //32405 - music
+						$color = 'olive';
+					}else if($eventtype == 33037){ //33037 - comedy
 						$color = 'green';
-					}else if($eventtype == 33048){
+					}else if($eventtype == 33048){ //33048 - Readings & Talks
+						$color = 'teal';
+					}else if($eventtype == 33054){ //33054 - Performing Arts
 						$color = 'blue';
-					}else if($eventtype == 33054){
-						$color = 'pink';
-					}else if($eventtype == 33042 || $eventtype == 33040){
-						$color = 'orange';
-					}else if($eventtype == 33043){
-						$color = 'cornflower';
+					}else if($eventtype == 33047 || $eventtype == 33049){ // 33047 - lgbt+, 33049 - Cultural Communities
+						$color = 'purple';
 					}
 				}
 				$eventtimestart = date("g:i a", strtotime($events['event']['event_instances']['0']['event_instance']['start']));
@@ -140,7 +137,9 @@ get_header(); ?>
 				$ccsite = '<a href="https://www.travelportland.com/event/'.@$events['event']['id'].'">...more info</a>';
 				$officialwebsite = '<a href="'.$events['event']['url'].'">more info...</a>';
 
-				$calendar->add_event($events['event']['title'], $detailsnocr, $eventdatestart, $eventtimestart, $eventIcon, $officialwebsite, $events['event']['location_name'], 1, $color);
+				$title = explode(':', $events['event']['title']);
+
+				$calendar->add_event($title[0], $detailsnocr, $eventdatestart, $eventtimestart, $eventIcon, $officialwebsite, $events['event']['location_name'], 1, $color);
 			};
 		?> 
 		<?php
